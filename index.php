@@ -1,4 +1,4 @@
-<?php 
+<?php
 	include("connect.php")
 ?>
 <!DOCTYPE html>
@@ -16,32 +16,34 @@
 				<caption>List of users</caption>
 				<thead>
 					<tr>
-						<th scope="col">#</th>
-						<th scope="col">First</th>
-						<th scope="col">Last</th>
-						<th scope="col">Handle</th>
+						<th scope="col">ID</th>
+						<th scope="col">Question</th>
+						<th scope="col">Option A</th>
+						<th scope="col">Option B</th>
+						<th scope="col">Option C</th>
+						<th scope="col">Option D</th>
+						<th scope="col">Answer</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
+					<?php
 						$sql 	= "SELECT * FROM question";
 						$result = $conn->query($sql);
+						
+						while($row = $result->fetch_assoc()) {
 
-						if($result->num_rows > 0) {
-							while($row = $result->fetch_assoc()) {
-								echo "Qustion: " . $row["description"] . "<br>";
-							}
-						} else {
-							echo "0 results" . "<br>";
+							echo "<tr>";
+							echo "<th scope = 'row'>" . $row["id"] . "</th>";
+							echo "<th scope = 'row'>" . $row["description"] . "</th>";
+							echo "<th scope = 'row'>" . $row["option_a"] . "</th>";
+							echo "<th scope = 'row'>" . $row["option_b"] . "</th>";
+							echo "<th scope = 'row'>" . $row["option_c"] . "</th>";
+							echo "<th scope = 'row'>" . $row["option_d"] . "</th>";
+							echo "<th scope = 'row'>" . $row["answer"] . "</th>";
+							echo "</tr>";
+
 						}
-
 					?>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>
