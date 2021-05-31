@@ -1,6 +1,6 @@
 <?php
 	include("connect.php");
-	include("addQues.php");
+	include("modalQuestion.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
