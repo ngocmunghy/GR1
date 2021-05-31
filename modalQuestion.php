@@ -80,22 +80,30 @@
 <script type="text/javascript">
   $('#btnSubmmit').click(function() {
     let question  = $('#question-area').val();
-    let optA      = $('#txtOptA').val();
-    let optB      = $('#txtOptB').val();
-    let optC      = $('#txtOptC').val();
-    let optD      = $('#txtOptD').val();
-    let ans;
+    let optA      = $('#txtOptA').val().trim();
+    let optB      = $('#txtOptB').val().trim();
+    let optC      = $('#txtOptC').val().trim();
+    let optD      = $('#txtOptD').val().trim();
+    let ans       = '';
     if(document.getElementById('optA').checked) {
       ans = 'A';
     } else if(document.getElementById('optB').checked) {
       ans = 'B';
     } else if(document.getElementById('optC').checked) {
       ans = 'C';
-    } else {
+    } else if(document.getElementById('optD').checked) {
       ans = 'D';
     }
 
-    // console.log(ans);
+    if(question == "" || optA == "" || optB == "" || optC == "" || optD == "") {
+      alert("Vui lòng nhập đầy đủ câu hỏi và đáp án");
+      return;
+    }
+
+    if(ans == "") {
+      alert("Vui lòng chọn đáp án đúng");
+      return;
+    }
 
     $.ajax({
       url: 'add_question.php',
@@ -110,7 +118,16 @@
       },
 
       success: function(data) {
-        console.log(data);
+        alert(data);
+        $('#question-area').val('');
+        $('#txtOptA').val('');
+        $('#txtOptB').val('');
+        $('#txtOptC').val('');
+        $('#txtOptD').val('');
+        $('#optA').prop('check', false);
+        $('#optB').prop('check', false);
+        $('#optC').prop('check', false);
+        $('#optD').prop('check', false);
       }
     });
   });
