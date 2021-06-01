@@ -1,5 +1,5 @@
 <?php 
-	include("connect.php");
+	include("dbhelp.php");
 
 	$question	= $_POST['question'];
 	$optA		= $_POST['optA'];
@@ -9,13 +9,7 @@
 	$ans		= $_POST['ans'];
 
 	$sql = " INSERT INTO question values(NULL, '$question', '$optA', '$optB', '$optC', '$optD', '$ans') ";
-
-	if ($conn->query($sql) === TRUE) {
-	  echo "New record created successfully";
-	} else {
-	  echo "Error: " . $sql . "<br>" . $conn->error;
-	}
-
-	$conn->close();
+	execute($sql);
+	echo "New record created successfully";
 
 ?>

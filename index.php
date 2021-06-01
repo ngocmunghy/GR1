@@ -1,5 +1,5 @@
 <?php
-	include("connect.php");
+	include("dbhelp.php");
 	include("modalQuestion.php");
 ?>
 <!DOCTYPE html>
@@ -8,9 +8,11 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="./style.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 	</head>
 	<body>
+
 		<div class="container">
 			<table class="table table-striped table-hover">
 				<thead>
@@ -25,21 +27,29 @@
 					<div class="d-flex justify-content-end">
 						<button id = "addQuestion" class="btn btn-success">+</button>
 					</div>
+
 					<?php
 						
 						$sql 	= "SELECT * FROM question";
-						$result = $conn->query($sql);
-						
-						while($row = $result->fetch_assoc()) {
+
+						$questions = executeResult($sql);
+						foreach($questions as $question) {
 							echo "<tr>";
-									echo "<td scope = 'row'>" . $row["id"] . "</td>";
-									echo "<td class = 'text-primary'>" . $row["description"] . "</td>";
-									echo "<td scope = 'row'>";
-									echo "<a class = 'btn btn-sm btn-warning' href = '#' role = 'button'>View</a> &nbsp";
-									echo "<a class = 'btn btn-sm btn-secondary' href = '#' role = 'button'>Edit</a> &nbsp";
-									echo "<a class = 'btn btn-sm btn-danger' href = '#' role = 'button'>Delete</a> &nbsp";
-									echo "</td>";
+							echo "<td scope = 'row'>" . $question["id"] . "</td>";
+							echo "<td class = 'text-primary'>" . $question["description"] . "</td>";
+							echo "<td scope = 'row'>";
+							echo "<button class='btn btn-warning'>";
+							echo "<a href='./detail.php?id=".$question['id']."'>View</a></button>&nbsp";
+
+							echo "<button class='btn btn-secondary'>";
+							echo "<a href='#'>Edit</a></button>&nbsp";
+
+							echo "<button class='btn btn-danger'>";
+							echo "<a href='#'>Delete</a></button>";
+
+							echo "</td>";
 							echo "</tr>";
+
 						}
 					?>
 				</tbody>

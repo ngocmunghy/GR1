@@ -1,0 +1,15 @@
+a {
+	text-decoration: none !important;
+}
+
+.btn-warning a {
+	color: black;
+}
+
+.btn-secondary a {
+	color: white;
+}
+
+.btn-danger a {
+	color: black;
+}

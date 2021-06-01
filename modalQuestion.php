@@ -106,7 +106,7 @@
     }
 
     $.ajax({
-      url: 'add_question.php',
+      url: './add_question.php',
       type: 'post',
       data: {
         question: question,
