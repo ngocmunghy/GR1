@@ -34,18 +34,16 @@
 
 						$questions = executeResult($sql);
 						foreach($questions as $question) {
-							echo "<tr>";
+							echo "<tr id=".$question['id'].">";
 							echo "<td scope = 'row'>" . $question["id"] . "</td>";
 							echo "<td class = 'text-primary'>" . $question["description"] . "</td>";
 							echo "<td scope = 'row'>";
-							echo "<button class='btn btn-warning'>";
-							echo "<a href='./detail.php?id=".$question['id']."'>View</a></button>&nbsp";
+							// echo "<a href='./detail.php?id=".$question['id']."'>View</a></button>&nbsp";
+							echo "<input type='button' name='view' class='btn btn-xs btn-info' value='Xem'>&nbsp";
 
-							echo "<button class='btn btn-secondary'>";
-							echo "<a href='#'>Edit</a></button>&nbsp";
+							echo "<input type='button' name='edit' class='btn btn-xs btn-warning' value='Sửa'>&nbsp";
 
-							echo "<button class='btn btn-danger'>";
-							echo "<a href='#'>Delete</a></button>";
+							echo "<input type='button' name='delete' class='btn btn-xs btn-danger' value='Xóa'>&nbsp";
 
 							echo "</td>";
 							echo "</tr>";
@@ -63,6 +61,49 @@
 			$(document).ready(function() {
 				$('#addQuestion').click(function() {
 					$('#mdlQuestion').modal('show');
+				});
+
+				// pop-up modal if user click to the view button
+				$("input[name='view']").click(function() {
+					let trid = $(this).closest('tr').attr('id'); 
+					// console.log(trid);
+
+					$.ajax({
+						url: './detail.php',
+						type: 'get',
+						data: {
+							id:trid
+						},
+						success: function(data) {
+							data = JSON.parse(data);
+							console.log(data);
+							$('#question-area').val(data['description']);
+							$('#txtOptA').val(data['option_a']);
+							$('#txtOptB').val(data['option_b']);
+							$('#txtOptC').val(data['option_c']);
+							$('#txtOptD').val(data['option_d']);
+							$('textarea').prop('readonly', true);
+							$('input[type=radio]').prop('disabled', true);
+							$('#btnSubmit').hide();
+
+							switch(data['answer']) {
+								case 'A':
+									$('#optA').prop('checked', true);
+									break;
+								case 'B':
+									$('#optB').prop('checked', true);
+									break;
+								case 'C':
+									$('#optC').prop('checked', true);
+									break;
+								case 'D':
+									$('#optD').prop('checked', true);
+									break;
+
+							}
+							$('#mdlQuestion').modal('show');
+						}
+					});
 				});
 			});
 			

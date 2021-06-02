@@ -1,10 +1,6 @@
 <div class="modal" tabindex="-1" role = "dialog" id = "mdlQuestion">
   <div class="modal-dialog" role = "document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">New question</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
       <div class="modal-body">
         <div class="mb-3">
           <label for="question-area" class="form-label">Question</label>
@@ -69,7 +65,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btnSubmmit">Save changes</button>
+        <button type="button" class="btn btn-primary" id="btnSubmit">Save changes</button>
       </div>
     </div>
   </div>
@@ -78,7 +74,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-  $('#btnSubmmit').click(function() {
+  $('#btnSubmit').click(function() {
     let question  = $('#question-area').val();
     let optA      = $('#txtOptA').val().trim();
     let optB      = $('#txtOptB').val().trim();
@@ -128,6 +124,7 @@
         $('#optB').prop('check', false);
         $('#optC').prop('check', false);
         $('#optD').prop('check', false);
+        $('#mdlQuestion').modal('hide');
       }
     });
   });
