@@ -60,8 +60,18 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('#addQuestion').click(function() {
-					$('#mdlQuestion').modal('show');
+
 					$('#txtQuestionId').val('');
+
+					$('#question-area').val('');
+					$('#txtOptA').val('');
+					$('#txtOptB').val('');
+					$('#txtOptC').val('');
+					$('#txtOptD').val('');
+					$('input[type="radio"]').prop('checked', false);
+
+					$('#mdlQuestion').modal('show');
+
 				});
 
 				function getDetail(id) {

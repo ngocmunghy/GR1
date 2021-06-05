@@ -92,18 +92,15 @@
       ans = 'D';
     }
 
-    // if(question == "" || optA == "" || optB == "" || optC == "" || optD == "") {
-    //   alert("Vui lòng nhập đầy đủ câu hỏi và đáp án");
-    //   return;
-    // }
+    if(question == "" || optA == "" || optB == "" || optC == "" || optD == "") {
+      alert("Vui lòng nhập đầy đủ câu hỏi và đáp án");
+      return;
+    }
 
-    // if(ans == "") {
-    //   alert("Vui lòng chọn đáp án đúng");
-    //   return;
-    // }
-
-    let questionId = $('#txtQuestionId').val();
-    console.log('id la: ' + questionId);
+    if(ans == "") {
+      alert("Vui lòng chọn đáp án đúng");
+      return;
+    }
 
     if(questionId.length == 0) {
       $.ajax({
@@ -120,15 +117,6 @@
 
         success: function(data) {
           alert(data);
-          $('#question-area').val('');
-          $('#txtOptA').val('');
-          $('#txtOptB').val('');
-          $('#txtOptC').val('');
-          $('#txtOptD').val('');
-          $('#optA').prop('check', false);
-          $('#optB').prop('check', false);
-          $('#optC').prop('check', false);
-          $('#optD').prop('check', false);
           $('#mdlQuestion').modal('hide');
         }
       });
@@ -148,15 +136,6 @@
 
         success: function(data) {
           alert(data);
-          $('#question-area').val('');
-          $('#txtOptA').val('');
-          $('#txtOptB').val('');
-          $('#txtOptC').val('');
-          $('#txtOptD').val('');
-          $('#optA').prop('check', false);
-          $('#optB').prop('check', false);
-          $('#optC').prop('check', false);
-          $('#optD').prop('check', false);
           $('#mdlQuestion').modal('hide');
         }
       });
