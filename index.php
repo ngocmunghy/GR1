@@ -61,18 +61,15 @@
 			$(document).ready(function() {
 				$('#addQuestion').click(function() {
 					$('#mdlQuestion').modal('show');
+					$('#txtQuestionId').val('');
 				});
 
-				// pop-up modal if user click to the view button
-				$("input[name='view']").click(function() {
-					let trid = $(this).closest('tr').attr('id'); 
-					// console.log(trid);
-
+				function getDetail(id) {
 					$.ajax({
 						url: './detail.php',
 						type: 'get',
 						data: {
-							id:trid
+							id:id
 						},
 						success: function(data) {
 							data = JSON.parse(data);
@@ -82,9 +79,6 @@
 							$('#txtOptB').val(data['option_b']);
 							$('#txtOptC').val(data['option_c']);
 							$('#txtOptD').val(data['option_d']);
-							$('textarea').prop('readonly', true);
-							$('input[type=radio]').prop('disabled', true);
-							$('#btnSubmit').hide();
 
 							switch(data['answer']) {
 								case 'A':
@@ -104,6 +98,28 @@
 							$('#mdlQuestion').modal('show');
 						}
 					});
+				}
+
+				// pop-up modal if user click to the view button
+				$("input[name='view']").click(function() {
+					let trid = $(this).closest('tr').attr('id'); 
+					// console.log(trid);
+					getDetail(trid);
+					$('textarea').prop('readonly', true);
+					$('input[type=radio]').prop('disabled', true);
+					$('#btnSubmit').hide();
+				});
+
+				// pop-up modal if user click to the edit button
+				$("input[name='edit']").click(function() {
+					let trid = $(this).closest('tr').attr('id'); 
+					// console.log(trid);
+
+					getDetail(trid);
+					$('textarea').prop('readonly', false);
+					$('input[type=radio]').prop('disabled', false);
+					$('#btnSubmit').show();
+					$('#txtQuestionId').val(trid);
 				});
 			});
 			

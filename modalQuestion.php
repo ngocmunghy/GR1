@@ -2,6 +2,7 @@
   <div class="modal-dialog" role = "document">
     <div class="modal-content">
       <div class="modal-body">
+        <input type="hidden" id="txtQuestionId">
         <div class="mb-3">
           <label for="question-area" class="form-label">Question</label>
           <textarea class="form-control" id="question-area" rows="3" placeholder="Input new question here ..."></textarea>
@@ -91,41 +92,75 @@
       ans = 'D';
     }
 
-    if(question == "" || optA == "" || optB == "" || optC == "" || optD == "") {
-      alert("Vui lòng nhập đầy đủ câu hỏi và đáp án");
-      return;
+    // if(question == "" || optA == "" || optB == "" || optC == "" || optD == "") {
+    //   alert("Vui lòng nhập đầy đủ câu hỏi và đáp án");
+    //   return;
+    // }
+
+    // if(ans == "") {
+    //   alert("Vui lòng chọn đáp án đúng");
+    //   return;
+    // }
+
+    let questionId = $('#txtQuestionId').val();
+    console.log('id la: ' + questionId);
+
+    if(questionId.length == 0) {
+      $.ajax({
+        url: './add_question.php',
+        type: 'post',
+        data: {
+          question: question,
+          optA: optA,
+          optB: optB,
+          optC: optC,
+          optD: optD,
+          ans: ans
+        },
+
+        success: function(data) {
+          alert(data);
+          $('#question-area').val('');
+          $('#txtOptA').val('');
+          $('#txtOptB').val('');
+          $('#txtOptC').val('');
+          $('#txtOptD').val('');
+          $('#optA').prop('check', false);
+          $('#optB').prop('check', false);
+          $('#optC').prop('check', false);
+          $('#optD').prop('check', false);
+          $('#mdlQuestion').modal('hide');
+        }
+      });
+    } else {
+      $.ajax({
+        url: './edit_ques.php',
+        type: 'post',
+        data: {
+          id:questionId,
+          question: question,
+          optA: optA,
+          optB: optB,
+          optC: optC,
+          optD: optD,
+          ans: ans
+        },
+
+        success: function(data) {
+          alert(data);
+          $('#question-area').val('');
+          $('#txtOptA').val('');
+          $('#txtOptB').val('');
+          $('#txtOptC').val('');
+          $('#txtOptD').val('');
+          $('#optA').prop('check', false);
+          $('#optB').prop('check', false);
+          $('#optC').prop('check', false);
+          $('#optD').prop('check', false);
+          $('#mdlQuestion').modal('hide');
+        }
+      });
     }
 
-    if(ans == "") {
-      alert("Vui lòng chọn đáp án đúng");
-      return;
-    }
-
-    $.ajax({
-      url: './add_question.php',
-      type: 'post',
-      data: {
-        question: question,
-        optA: optA,
-        optB: optB,
-        optC: optC,
-        optD: optD,
-        ans: ans
-      },
-
-      success: function(data) {
-        alert(data);
-        $('#question-area').val('');
-        $('#txtOptA').val('');
-        $('#txtOptB').val('');
-        $('#txtOptC').val('');
-        $('#txtOptD').val('');
-        $('#optA').prop('check', false);
-        $('#optB').prop('check', false);
-        $('#optC').prop('check', false);
-        $('#optD').prop('check', false);
-        $('#mdlQuestion').modal('hide');
-      }
-    });
   });
 </script>
