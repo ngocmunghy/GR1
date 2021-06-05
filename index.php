@@ -14,6 +14,11 @@
 	<body>
 
 		<div class="container">
+
+			<div class="d-flex justify-content-end">
+				<button id = "addQuestion" class="btn btn-success">+</button>
+			</div>
+
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -23,33 +28,7 @@
 					</tr>
 				</thead>
 
-				<tbody>
-					<div class="d-flex justify-content-end">
-						<button id = "addQuestion" class="btn btn-success">+</button>
-					</div>
-
-					<?php
-						
-						$sql 	= "SELECT * FROM question";
-
-						$questions = executeResult($sql);
-						foreach($questions as $question) {
-							echo "<tr id=".$question['id'].">";
-							echo "<td scope = 'row'>" . $question["id"] . "</td>";
-							echo "<td class = 'text-primary'>" . $question["description"] . "</td>";
-							echo "<td scope = 'row'>";
-							// echo "<a href='./detail.php?id=".$question['id']."'>View</a></button>&nbsp";
-							echo "<input type='button' name='view' class='btn btn-xs btn-info' value='Xem'>&nbsp";
-
-							echo "<input type='button' name='edit' class='btn btn-xs btn-warning' value='Sửa'>&nbsp";
-
-							echo "<input type='button' name='delete' class='btn btn-xs btn-danger' value='Xóa'>&nbsp";
-
-							echo "</td>";
-							echo "</tr>";
-
-						}
-					?>
+				<tbody id = "questions">
 				</tbody>
 			</table>
 		</div>
@@ -58,79 +37,117 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 		<script type="text/javascript">
+
 			$(document).ready(function() {
-				$('#addQuestion').click(function() {
+				readData();
+			});
 
-					$('#txtQuestionId').val('');
+			$('#addQuestion').click(function() {
 
-					$('#question-area').val('');
-					$('#txtOptA').val('');
-					$('#txtOptB').val('');
-					$('#txtOptC').val('');
-					$('#txtOptD').val('');
-					$('input[type="radio"]').prop('checked', false);
+				$('textarea').prop('readonly', false);
+				$('input[type=radio]').prop('disabled', false);
+				$('#btnSubmit').show();
 
-					$('#mdlQuestion').modal('show');
+				$('#txtQuestionId').val('');
 
+				$('#question-area').val('');
+				$('#txtOptA').val('');
+				$('#txtOptB').val('');
+				$('#txtOptC').val('');
+				$('#txtOptD').val('');
+				$('input[type="radio"]').prop('checked', false);
+
+				$('#mdlQuestion').modal('show');
+
+			});
+
+			function readData() {
+
+				$.ajax({
+					url: './view_ques.php',
+					type: 'get',
+					success: function(data) {
+						$('#questions').empty();
+						$('#questions').append(data);
+					}
 				});
+			};
 
-				function getDetail(id) {
+			function getDetail(id) {
+				$.ajax({
+					url: './detail.php',
+					type: 'get',
+					data: {
+						id:id
+					},
+					success: function(data) {
+						data = JSON.parse(data);
+						console.log(data);
+						$('#question-area').val(data['description']);
+						$('#txtOptA').val(data['option_a']);
+						$('#txtOptB').val(data['option_b']);
+						$('#txtOptC').val(data['option_c']);
+						$('#txtOptD').val(data['option_d']);
+
+						switch(data['answer']) {
+							case 'A':
+								$('#optA').prop('checked', true);
+								break;
+							case 'B':
+								$('#optB').prop('checked', true);
+								break;
+							case 'C':
+								$('#optC').prop('checked', true);
+								break;
+							case 'D':
+								$('#optD').prop('checked', true);
+								break;
+
+						}
+						$('#mdlQuestion').modal('show');
+					}
+				});
+			}
+
+			// pop-up modal if user click to the view button
+			$(document).on('click', "input[name='view']", function() {
+				let trid = $(this).closest('tr').attr('id'); 
+				// console.log(trid);
+				getDetail(trid);
+				$('textarea').prop('readonly', true);
+				$('input[type=radio]').prop('disabled', true);
+				$('#btnSubmit').hide();
+			});
+
+			// pop-up modal if user click to the edit button
+			$(document).on('click', "input[name='edit']", function() {
+				let trid = $(this).closest('tr').attr('id'); 
+				// console.log(trid);
+
+				getDetail(trid);
+				$('textarea').prop('readonly', false);
+				$('input[type=radio]').prop('disabled', false);
+				$('#btnSubmit').show();
+				$('#txtQuestionId').val(trid);
+			});
+
+			$(document).on('click', "input[name='delete']", function() {
+				let trid = $(this).closest('tr').attr('id'); 
+				// console.log(trid);
+
+				if(confirm("Are you sure to delete this question ?")) {
 					$.ajax({
-						url: './detail.php',
-						type: 'get',
+						url: './delete_ques.php',
+						type: 'post',
 						data: {
-							id:id
+							id: trid
 						},
 						success: function(data) {
-							data = JSON.parse(data);
-							console.log(data);
-							$('#question-area').val(data['description']);
-							$('#txtOptA').val(data['option_a']);
-							$('#txtOptB').val(data['option_b']);
-							$('#txtOptC').val(data['option_c']);
-							$('#txtOptD').val(data['option_d']);
-
-							switch(data['answer']) {
-								case 'A':
-									$('#optA').prop('checked', true);
-									break;
-								case 'B':
-									$('#optB').prop('checked', true);
-									break;
-								case 'C':
-									$('#optC').prop('checked', true);
-									break;
-								case 'D':
-									$('#optD').prop('checked', true);
-									break;
-
-							}
-							$('#mdlQuestion').modal('show');
+							alert(data);
+							readData();
 						}
 					});
 				}
-
-				// pop-up modal if user click to the view button
-				$("input[name='view']").click(function() {
-					let trid = $(this).closest('tr').attr('id'); 
-					// console.log(trid);
-					getDetail(trid);
-					$('textarea').prop('readonly', true);
-					$('input[type=radio]').prop('disabled', true);
-					$('#btnSubmit').hide();
-				});
-
-				// pop-up modal if user click to the edit button
-				$("input[name='edit']").click(function() {
-					let trid = $(this).closest('tr').attr('id'); 
-					// console.log(trid);
-
-					getDetail(trid);
-					$('textarea').prop('readonly', false);
-					$('input[type=radio]').prop('disabled', false);
-					$('#btnSubmit').show();
-					$('#txtQuestionId').val(trid);
-				});
 			});
 			
 		</script>

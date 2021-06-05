@@ -102,6 +102,8 @@
       return;
     }
 
+    let questionId = $('#txtQuestionId').val();
+
     if(questionId.length == 0) {
       $.ajax({
         url: './add_question.php',
@@ -118,6 +120,7 @@
         success: function(data) {
           alert(data);
           $('#mdlQuestion').modal('hide');
+          readData();
         }
       });
     } else {
@@ -137,6 +140,7 @@
         success: function(data) {
           alert(data);
           $('#mdlQuestion').modal('hide');
+          readData();
         }
       });
     }
