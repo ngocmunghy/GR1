@@ -3,10 +3,11 @@
 	$sql 	= "SELECT * FROM question";
 
 	$questions = executeResult($sql);
+	$index = 1;
 	$data = '';
 	foreach($questions as $question) {
 		$data .= "<tr id=".$question['id'].">";
-			$data .= "<td scope = 'row'>" . $question["id"] . "</td>";
+			$data .= "<td scope = 'row'>" . $index++ . "</td>";
 			$data .= "<td class = 'text-primary'>" . $question["description"] . "</td>";
 			$data .= "<td scope = 'row'>";
 			$data .= "<input type='button' name='view' class='btn btn-xs btn-info' value='Xem'>&nbsp";

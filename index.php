@@ -15,8 +15,24 @@
 
 		<div class="container">
 
-			<div class="d-flex justify-content-end">
-				<button id = "addQuestion" class="btn btn-success">+</button>
+			<div class="row">
+				
+				<div class="col-sm-4">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search" id="txtSearch">
+						<div class="input-group-btn">
+							<button class="btn btn-primary" type="submit" id="btnSearch">
+								<span class="glyphicon glyphicon-search">Search</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6"></div>
+				<div class="col-sm-2 text-end">
+					<button id = "addQuestion" class="btn btn-success">+</button>
+				</div>
+
 			</div>
 
 			<table class="table table-striped table-hover">
@@ -60,6 +76,14 @@
 				$('#mdlQuestion').modal('show');
 
 			});
+
+			// $('#btnSearch').click(function() {
+			// 	let content = $('#txtSearch').val();
+			// 	$.ajax({
+			// 		url: './search.php',
+			// 		type: ''
+			// 	});
+			// });
 
 			function readData() {
 
