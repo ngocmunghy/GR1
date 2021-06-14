@@ -1,6 +1,7 @@
 <?php
 	include('./dbhelp.php');					
-	$sql 	= "SELECT * FROM question";
+	$search = $_GET['search'];
+	$sql 	= "SELECT * FROM question WHERE description LIKE '%".$search."%' ";
 
 	$questions = executeResult($sql);
 	$index = 1;

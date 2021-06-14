@@ -120,7 +120,7 @@
         success: function(data) {
           alert(data);
           $('#mdlQuestion').modal('hide');
-          readData();
+          readData($('txtSearch').val());
         }
       });
     } else {
@@ -140,7 +140,7 @@
         success: function(data) {
           alert(data);
           $('#mdlQuestion').modal('hide');
-          readData();
+          readData($('txtSearch').val());
         }
       });
     }

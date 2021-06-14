@@ -28,7 +28,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6"></div>
+				<div class="col-sm-6">
+					
+				</div>
 				<div class="col-sm-2 text-end">
 					<button id = "addQuestion" class="btn btn-success">+</button>
 				</div>
@@ -55,7 +57,13 @@
 		<script type="text/javascript">
 
 			$(document).ready(function() {
-				readData();
+				$('#btnSearch').click();
+			});
+
+			$('#txtSearch').on('keypress', function(e) {
+				if(e.which == 13) {
+					$('#btnSearch').click();
+				}
 			});
 
 			$('#addQuestion').click(function() {
@@ -77,19 +85,19 @@
 
 			});
 
-			// $('#btnSearch').click(function() {
-			// 	let content = $('#txtSearch').val();
-			// 	$.ajax({
-			// 		url: './search.php',
-			// 		type: ''
-			// 	});
-			// });
+			$('#btnSearch').click(function() {
+				let content = $('#txtSearch').val().trim();
+				readData(content);
+			});
 
-			function readData() {
+			function readData(search) {
 
 				$.ajax({
 					url: './view_ques.php',
 					type: 'get',
+					data: {
+						search: search
+					},
 					success: function(data) {
 						$('#questions').empty();
 						$('#questions').append(data);
