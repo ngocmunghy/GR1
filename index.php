@@ -23,8 +23,12 @@
       		</div>
       	</div>
       	
-      	<div id="questions">
-      		
+      	<div id="questions"></div>
+
+      	<div class="row">
+      		<div class="col-sm-12 text-center">
+      			<button type="button" class="btn btn-warning" id="btnFinish">Kết thúc bài thi</button>
+      		</div>
       	</div>
 
       </div>
@@ -36,8 +40,18 @@
 </html>
 
 <script type="text/javascript">
+	$(document).ready(function() {
+		$('#btnFinish').hide();
+	});
 	$('#btnStart').click(function() {
 		getQuestion();
+		$('#btnFinish').show();
+		$(this).hide();
+	});
+
+	$('#btnFinish').click(function() {
+		$(this).hide();
+		$('#btnStart').show();
 	});
 
 	function getQuestion() {
